@@ -2,52 +2,46 @@
 
 ## Visão Geral
 
-Este projeto consiste na criação de um dashboard de Business Intelligence (BI) para a análise de dados de um Helpdesk. [cite_start]O objetivo principal é transformar dados brutos de ocorrências e informações de usuários, suporte e problemas em métricas de desempenho e visualizações acionáveis, conforme proposto pela **Fatec Guaratinguetá**[cite: 46903, 46904].
+Este projeto consiste na criação de um dashboard de Business Intelligence (BI) para a análise de dados de um Helpdesk. O objetivo principal é transformar dados brutos de ocorrências e informações de suporte em métricas de desempenho e visualizações acionáveis.
 
-O relatório final permite monitorar o desempenho da equipe de suporte e identificar padrões e tendências no volume e no tempo de resolução dos problemas.
+O relatório final permite o monitoramento do desempenho da equipe de suporte, a identificação de padrões e a detecção de tendências no volume e no tempo de resolução dos problemas (TMA - Tempo Médio de Atendimento). O desenvolvimento seguiu as etapas de análise, modelagem e visualização de dados.
 
 ## 📊 Estrutura e Tecnologia
 
-* [cite_start]**Ferramenta Principal:** Power BI[cite: 46913].
-* [cite_start]**Modelo de Dados:** Utiliza um modelo dimensional (Schema Estrela) para relacionar as tabelas de dimensões (`dUsuario`, `dSuporte`, `dProblema`) com a tabela Fato (`fOcorrencias`)[cite: 46910, 46925].
-* [cite_start]**Linguagem de Fórmulas:** DAX (Data Analysis Expressions)[cite: 46935].
+* **Ferramenta Principal:** Power BI Desktop (`Relatorio_HelpDesk_SI.pbix`).
+* **Modelo de Dados:** Utiliza um modelo dimensional (Schema Estrela) para relacionar as tabelas de dimensões (`dUsuario`, `dSuporte`, `dProblema`) com a tabela Fato (`fOcorrencias`).
+* **Linguagem de Fórmulas:** DAX (Data Analysis Expressions) para a criação de métricas e indicadores.
 
 ## 📂 Fontes de Dados (Data Dictionary)
 
-[cite_start]O projeto é alimentado por quatro arquivos CSV (simulando um Data Warehouse ou Data Mart)[cite: 46906]:
+O projeto é alimentado por quatro arquivos CSV que simulam as bases de dados do Helpdesk:
 
 | Tabela | Descrição | Colunas Chave (Exemplos) |
 | :--- | :--- | :--- |
-| **`fOcorrencias`** | [cite_start]Registros de atendimentos e eventos (Tabela Fato)[cite: 46910, 46922]. | [cite_start]`Data Chamado`, `ID Usuario`, `ID Suporte`, `ID Problema`, `Status`[cite: 46978, 46980, 46981]. |
-| **`dUsuario`** | [cite_start]Dimensão de informações dos usuários[cite: 46907]. | [cite_start]`ID Usuario`, `Nome Usuario`, `Sexo`, `Data de Nascimento`, `Data de inscrição`[cite: 50358]. |
-| **`dSuporte`** | [cite_start]Dimensão de dados sobre os atendentes[cite: 46908]. | [cite_start]`ID Suporte`, `Nome Cliente`, `Sexo`, `Data de Nascimento`[cite: 50367]. |
-| **`dProblema`** | [cite_start]Dimensão de categorias de problemas[cite: 46909]. | [cite_start]`ID problema`, `Problema` (e.g., "Conexão lenta", "Problema com login", "Tempo de resposta")[cite: 50368]. |
+| **`fOcorrencias.csv`** | Registros detalhados de atendimentos (Tabela Fato principal). | `Data Chamado`, `ID Usuario`, `ID Suporte`, `ID Problema`, `Status`. |
+| **`dUsuario.csv`** | Informações demográficas dos usuários que abriram os chamados (Dimensão). | `ID Usuario`, `Nome Usuario`, `Sexo`, `Data de inscrição`. |
+| **`dSuporte.csv`** | Dados sobre os atendentes ou equipe de suporte (Dimensão). | `ID Suporte`, `Nome Cliente`, `Data de Nascimento`. |
+| **`dProblema.csv`** | Categorias e tipos de problemas atendidos (Dimensão). | `ID problema`, `Problema` (e.g., "Conexão lenta", "Problema com login"). |
 
-## 📐 Métricas Chave (DAX)
+## 📐 Métricas Chave (Implementação em DAX)
 
-[cite_start]As seguintes métricas de negócios foram implementadas em DAX para a análise de desempenho[cite: 46935]:
+O relatório calcula e exibe as seguintes métricas de desempenho:
 
-* [cite_start]**Total de Ocorrências:** Contagem total de atendimentos na base[cite: 46944, 46958].
-* [cite_start]**Tempo Médio de Atendimento (TMA):** Cálculo da média da diferença entre `Data_Abertura` e `Data_Encerramento`[cite: 46936, 46940].
-* [cite_start]**Total de Ocorrências por Categoria:** Distribuição do volume de chamados por tipo de problema[cite: 46941].
-* [cite_start]**Satisfação Média dos Atendimentos:** Média ponderada ou simples da coluna `Satisfacao` (se implementada)[cite: 46945, 46947, 46963].
-* [cite_start]**Tempo Total de Atendimento por Atendente:** Soma do tempo de atendimento para avaliação da carga de trabalho e eficiência individual[cite: 46949, 46951].
+* **Total de Ocorrências:** Contagem total de chamados na base.
+* **Tempo Médio de Atendimento (TMA):** Média do tempo de atendimento (calculado entre a abertura e o encerramento do chamado).
+* **Tempo Total de Atendimento por Atendente:** Soma do tempo de atendimento para avaliação da carga de trabalho e eficiência da equipe.
 
-## 🖼️ Visualizações e Relatórios
+## 🖼️ Visualizações e Relatórios Principais
 
-O projeto inclui relatórios que permitem uma navegação completa sobre os dados de Helpdesk:
+O dashboard está organizado em seções para facilitar a análise:
 
-1.  **Dashboard de Atendimentos:**
-    * [cite_start]Cartões de resumo (KPIs) para o Tempo Médio de Atendimento e Número Total de Ocorrências[cite: 46956, 46957, 46958].
-    * [cite_start]Gráfico de barras detalhando as **Ocorrências por Categoria de Problema**[cite: 46954].
-2.  **Desempenho por Atendente:**
-    * [cite_start]Tabela com o detalhe do número de atendimentos e o Tempo Médio de Atendimento por `ID Suporte`[cite: 46966].
-    * [cite_start]Gráfico de barras para comparação da **Satisfação Média** entre os atendentes[cite: 46967].
-3.  **Análise Temporal:**
-    * [cite_start]Visualização de linha do tempo para identificar o **Volume de Atendimentos por Mês ou Semana**, fundamental para a detecção de sazonalidades ou picos atípicos[cite: 46969].
+1.  **Dashboard de Atendimentos:** Contém cartões de resumo (KPIs) e gráficos de barras para visualizar a distribuição das **Ocorrências por Categoria de Problema**.
+2.  **Desempenho por Atendente:** Tabela detalhada e gráficos comparativos do **Tempo Médio de Atendimento** e **Satisfação Média** (se aplicável nos dados) entre os membros da equipe de suporte.
+3.  **Análise Temporal:** Gráfico de linha do tempo que permite verificar o **Volume de Atendimentos por Mês ou Semana**, sendo essencial para identificar sazonalidades e tendências.
 
----
+## 🚀 Como Executar o Projeto
 
-**Como Contribuir:**
-
-Sinta-se à vontade para clonar o repositório e sugerir melhorias no modelo de dados, métricas DAX ou novas visualizações!
+1.  **Clone o Repositório:** Baixe todos os arquivos para sua máquina local.
+2.  **Instale o Power BI:** Certifique-se de ter o [Power BI Desktop](https://powerbi.microsoft.com/pt-br/desktop/) instalado.
+3.  **Abra o Relatório:** Abra o arquivo `Relatorio_HelpDesk_SI (1).pbix`. O Power BI carregará automaticamente as fontes de dados CSV que devem estar na mesma pasta ou em um caminho configurado.
+4.  **Explore:** Utilize os filtros e segmentações de dados para interagir com as visualizações.
